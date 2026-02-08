@@ -90,7 +90,11 @@ class Storage:
         if not self.sessions_path.exists():
             return {}
         data = json.loads(self.sessions_path.read_text())
-        return {peer: SessionState(peer=peer, **payload) for peer, payload in data.items()}
+        sessions: Dict[str, SessionState] = {}
+        for peer, payload in data.items():
+            payload_peer = payload.pop("peer", peer)
+            sessions[peer] = SessionState(peer=payload_peer, **payload)
+        return sessions
 
     def save_session(self, session: SessionState) -> None:
         sessions = self.load_sessions()
