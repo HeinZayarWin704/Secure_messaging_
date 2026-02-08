@@ -130,7 +130,7 @@ def responder_finalize(state: ResponderState, exchange: KeyExchange, confirm: Co
         info=b"hybridmsg-root",
         length=32,
     )
-    session_key_id = key_id(codec.b64decode(state.peer_hello.session_pub))
+    session_key_id = key_id(codec.b64decode(exchange.session_pub))
     return HandshakeResult(root_key=root_key, session_key_id=session_key_id)
 
 
